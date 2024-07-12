@@ -1,0 +1,91 @@
+{% extends 'base_bootstrap.html' %}
+
+{% block title %}
+  Task Detail
+{% endblock %}
+
+{% block extra_css %}
+  <style>
+    .card {
+      margin-top: 20px;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+      color: #fff;
+      border-bottom: 2px solid #0056b3;
+      border-radius: 10px 10px 0 0;
+      padding: 10px 20px;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    .btn-back {
+      border-color: #6c757d;
+      color: #fff;
+    }
+    
+    .btn-back:hover {
+      border-color: #343a40;
+    }
+    
+    .btn-edit {
+      border-color: #ffc107;
+      color: #212529;
+    }
+    
+    .btn-edit:hover {
+      border-color: #d39e00;
+    }
+    
+    .btn-delete {
+      border-color: #dc3545;
+      color: #fff;
+    }
+    
+    .btn-delete:hover {
+      border-color: #bd2130;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h2>{{ task.title }}</h2>
+      </div>
+      <div class="card-body">
+        <div class="mb-4">
+          <strong>Owner:</strong> {{ task.owner.username }}
+        </div>
+        <div class="mb-4">
+          <strong>Description:</strong>
+          <p>{{ task.description }}</p>
+        </div>
+        <div class="mb-4">
+          <strong>Status:</strong> {{ task.get_status_display }}
+        </div>
+        <div class="mb-4">
+          <strong>Created At:</strong> {{ task.created_at|date:'F j, Y, g:i a' }}
+        </div>
+        <div class="mb-4">
+          <strong>Updated At:</strong> {{ task.updated_at|date:'F j, Y, g:i a' }}
+        </div>
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'mainApp:list_create' %}" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to List</a>
+          <div>
+            {% if task.owner == user %}
+              <a href="{% url 'mainApp:task_update' task.id %}" class="btn btn-edit btn-sm"><i class="fas fa-edit"></i> Edit</a>
+              <a href="{% url 'mainApp:task_delete' task.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
